@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #004d00;
+            color: gold;
+            font-family: Arial, sans-serif;
+        }
+        .slot-machine {
+            display: inline-block;
+            padding: 40px;
+            background: url('https://i.imgur.com/IbKxJVs.png') no-repeat center center;
+            background-size: contain;
+            width: 500px;
+            height: 700px;
+            position: relative;
+        }
+        .slots {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+        }
+        .slot {
+            width: 100px;
+            height: 150px;
+            margin: 5px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 5px solid #b8860b;
+        }
+        .slot img {
+            width: 100px;
+            height: 450px;
+            position: absolute;
+            animation: none;
+        }
+        @keyframes spinAnimation {
+            0% { transform: translateY(-400%); }
+            100% { transform: translateY(0); }
+        }
+        #result {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        button {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 22px;
+            background-color: #b8860b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:active {
+            background-color: #8b6508;
+        }
+    </style>
+</head>
+<body>
+    <h1>Slot Machine</h1>
+    <div class="slot-machine">
+        <div class="slots">
+            <div class="slot"><img id="slot1" src="" alt=""></div>
+            <div class="slot"><img id="slot2" src="" alt=""></div>
+            <div class="slot"><img id="slot3" src="" alt=""></div>
+        </div>
+        <div id="result">Press Spin to Play!</div>
+        <button onclick="spin()">Spin</button>
+    </div>
+    <script>
+        const images = [
+            'your-image1.jpg',
+            'your-image2.jpg',
+            'your-image3.jpg',
+            'your-image4.jpg'
+        ];
+        
+        function spin() {
+            const slots = [
+                document.getElementById('slot1'),
+                document.getElementById('slot2'),
+                document.getElementById('slot3')
+            ];
+            
+            slots.forEach(slot => {
+                slot.style.animation = 'none';
+                void slot.offsetWidth;
+                slot.style.animation = 'spinAnimation 3s ease-out';
+            });
+            
+            setTimeout(() => {
+                let result = [];
+                for (let i = 0; i < 3; i++) {
+                    const randomIndex = Math.floor(Math.random() * images.length);
+                    slots[i].src = images[randomIndex];
+                    result.push(randomIndex);
+                }
+                document.getElementById('result').innerText = (result[0] === result[1] && result[1] === result[2]) ? "🎉 Congratulations! You win! 🎉" : "❌ Sorry, try again! ❌";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
