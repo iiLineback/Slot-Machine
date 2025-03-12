@@ -44,9 +44,8 @@
         }
         .slot img {
             width: 100px;
-            height: 450px;
+            height: 150px;
             position: absolute;
-            animation: none;
         }
         @keyframes spinAnimation {
             0% { transform: translateY(-400%); }
@@ -91,12 +90,12 @@
     </div>
     <script>
         const images = [
-            'your-image1.jpg',
-            'your-image2.jpg',
-            'your-image3.jpg',
-            'your-image4.jpg'
+            'https://i.imgur.com/XfOQyMM.png', // Losing Image 1
+            'https://i.imgur.com/wgV1wOi.png', // Losing Image 2
+            'https://i.imgur.com/4LfPPdM.png', // Losing Image 3
+            'https://i.imgur.com/YR5Nx0H.png'  // Winning Image
         ];
-        
+
         function spin() {
             const slots = [
                 document.getElementById('slot1'),
@@ -104,12 +103,16 @@
                 document.getElementById('slot3')
             ];
             
+            document.getElementById('result').innerText = "Spinning...";
+            
+            let spinDuration = 3000;
+            
             slots.forEach(slot => {
                 slot.style.animation = 'none';
-                void slot.offsetWidth;
-                slot.style.animation = 'spinAnimation 3s ease-out';
+                void slot.offsetWidth; // Reset animation
+                slot.style.animation = `spinAnimation ${spinDuration / 1000}s ease-out`;
             });
-            
+
             setTimeout(() => {
                 let result = [];
                 for (let i = 0; i < 3; i++) {
@@ -117,8 +120,12 @@
                     slots[i].src = images[randomIndex];
                     result.push(randomIndex);
                 }
-                document.getElementById('result').innerText = (result[0] === result[1] && result[1] === result[2]) ? "🎉 Congratulations! You win! 🎉" : "❌ Sorry, try again! ❌";
-            }, 3000);
+
+                // Check for a win (all three slots match)
+                document.getElementById('result').innerText = (result[0] === result[1] && result[1] === result[2])
+                    ? "🎉 Congratulations! You win! 🎉"
+                    : "❌ Sorry, try again! ❌";
+            }, spinDuration);
         }
     </script>
 </body>
